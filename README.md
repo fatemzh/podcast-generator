@@ -36,3 +36,43 @@ This project automates the creation of podcast RSS feeds from YAML files, develo
     ```sh
     docker run -e GITHUB_ACTOR=your-username -e INPUT_EMAIL=your-email -v $(pwd):/github/workspace podcast-generator
     ```
+
+
+## Create a YAML File
+Create a YAML file in your repository with the following format:
+### Example `feed.yaml`
+
+```yaml
+title: My Podcast
+format: audio/mpeg
+subtitle: A great podcast
+author: John Doe
+description: This is an example podcast feed.
+link: https://example.com/podcast
+image: /images/podcast-logo.png
+language: en
+category: Technology
+item:
+  - title: Episode 1
+    description: The first episode.
+    file: /audio/episode1.mp3
+    length: "12345"
+    duration: "12:34"
+    published: "Mon, 01 Jan 2023 00:00:00 GMT"
+```
+
+## Sample Workflow
+You're also going to need your own workflow file. Here's a sample:
+
+```yaml
+name: Generate Feed
+on: [push]
+jobs:
+  generate-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Run Feed Generator
+        uses: planetoftheweb/podcast-feed-generator@main
+```
